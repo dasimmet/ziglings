@@ -8,12 +8,15 @@
 // See if you can make this program print "5 4 3 2 1".
 //
 const print = @import("std").debug.print;
+var finished = false;
 
 pub fn main() void {
     const n = 5;
     var foo_frame = async foo(n);
 
-    ???
+    while (!finished) {
+        resume foo_frame;
+    }
 
     print("\n", .{});
 }
@@ -26,4 +29,5 @@ fn foo(countdown: u32) void {
         current -= 1;
         suspend {}
     }
+    finished = true;
 }

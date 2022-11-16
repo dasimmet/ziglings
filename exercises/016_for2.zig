@@ -24,8 +24,8 @@ pub fn main() void {
     // Now we'll convert the binary bits to a number value by adding
     // the value of the place as a power of two for each bit.
     //
-    // See if you can figure out the missing pieces:
-    for (bits, ???) |bit, ???| {
+    // See if you can figure out the missing piece:
+    for (bits, 0..) |bit, i| {
         // Note that we convert the usize i to a u32 with
         // @intCast(), a builtin function just like @import().
         // We'll learn about these properly in a later exercise.

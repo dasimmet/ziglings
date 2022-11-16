@@ -49,7 +49,7 @@ const Insect = union {
 
 // Since we need to specify the type of insect, we'll use an
 // enum (remember those?).
-const AntOrBee = enum { a, b };
+const AntOrBee = enum { a, b, };
 
 pub fn main() void {
     // We'll just make one bee and one ant to test them out:
@@ -59,8 +59,8 @@ pub fn main() void {
     std.debug.print("Insect report! ", .{});
 
     // Oops! We've made a mistake here.
-    printInsect(ant, AntOrBee.c);
-    printInsect(bee, AntOrBee.c);
+    printInsect(ant, AntOrBee.a);
+    printInsect(bee, AntOrBee.b);
 
     std.debug.print("\n", .{});
 }
