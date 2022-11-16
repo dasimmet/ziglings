@@ -13,23 +13,30 @@
 const print = @import("std").debug.print;
 
 pub fn main() void {
+    _ = async main_await();
+}
+
+fn main_await() void {
     print("A", .{});
 
     var frame = async suspendable();
 
-    print("X", .{});
+    print("D", .{});
 
     resume frame;
 
     print("F", .{});
+
+    // print("{s}", .{await frame});
 }
 
-fn suspendable() void {
-    print("X", .{});
+fn suspendable() []const u8 {
+    print("B", .{});
 
     suspend {
-        print("X", .{});
+        print("C", .{});
     }
 
-    print("X", .{});
+    print("E", .{});
+    return "G";
 }

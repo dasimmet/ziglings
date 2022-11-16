@@ -27,6 +27,7 @@
 // The example above prints "a:true b:false".
 //
 const print = @import("std").debug.print;
+const Circle = @import("080_anonymous_structs.zig").Circle(u32);
 
 pub fn main() void {
     printCircle(.{
@@ -38,7 +39,7 @@ pub fn main() void {
 
 // Please complete this function which prints an anonymous struct
 // representing a circle.
-fn printCircle(???) void {
+fn printCircle(circle: Circle) void {
     print("x:{} y:{} radius:{}\n", .{
         circle.center_x,
         circle.center_y,
