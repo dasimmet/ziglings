@@ -165,6 +165,11 @@ pub fn build(b: *Build) !void {
     const rand: ?bool = b.option(bool, "random", "Select random exercise");
     const start: ?usize = b.option(usize, "s", "Start at exercise");
     const reset: ?bool = b.option(bool, "reset", "Reset exercise progress");
+    const parallel = b.option(
+        bool,
+        "parallel",
+        "Check all ziglings in parallel",
+    ) orelse false;
 
     const sep = std.fs.path.sep_str;
     const healed_path = if (override_healed_path) |path|
@@ -237,7 +242,11 @@ pub fn build(b: *Build) !void {
         var prev_step = &header_step.step;
         for (exercises[(s - 1)..]) |ex| {
             const verify_stepn = ZiglingStep.create(b, ex, work_path, .normal);
-            verify_stepn.step.dependOn(prev_step);
+            if (parallel) {
+                ziglings_step.dependOn(&verify_stepn.step);
+            } else {
+                verify_stepn.step.dependOn(prev_step);
+            }
 
             prev_step = &verify_stepn.step;
         }
@@ -296,7 +305,11 @@ pub fn build(b: *Build) !void {
     for (exercises) |ex| {
         if (starting_exercise < ex.number()) {
             const verify_stepn = ZiglingStep.create(b, ex, work_path, .normal);
-            verify_stepn.step.dependOn(prev_step);
+            if (parallel) {
+                ziglings_step.dependOn(&verify_stepn.step);
+            } else {
+                verify_stepn.step.dependOn(prev_step);
+            }
 
             prev_step = &verify_stepn.step;
         }
