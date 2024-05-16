@@ -245,12 +245,21 @@ pub fn build(b: *Build) !void {
     // Normal build mode: verifies all exercises according to the recommended
     // order.
     const ziglings_step = b.step("ziglings", "Check all ziglings");
+    const ziglings_parallel = b.option(
+        bool,
+        "parallel",
+        "Check all ziglings in parallel",
+    ) orelse false;
     b.default_step = ziglings_step;
 
     var prev_step = &header_step.step;
     for (exercises) |ex| {
         const verify_stepn = ZiglingStep.create(b, ex, work_path, .normal);
-        verify_stepn.step.dependOn(prev_step);
+        if (ziglings_parallel) {
+            ziglings_step.dependOn(&verify_stepn.step);
+        } else {
+            verify_stepn.step.dependOn(prev_step);
+        }
 
         prev_step = &verify_stepn.step;
     }
