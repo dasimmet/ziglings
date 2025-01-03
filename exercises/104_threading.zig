@@ -122,7 +122,7 @@ fn thread_function(num: usize) !void {
 
     // This timer simulates the work of the thread.
     const work_time = 1 * ((5 - num % 3) - 2);
-    std.time.sleep(work_time * std.time.ns_per_s);
+    std.time.sleep(work_time * std.time.ns_per_s / 10);
 
     std.debug.print("thread {d}: {s}\n", .{ num, "finished." });
 }
